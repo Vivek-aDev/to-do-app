@@ -7,7 +7,10 @@ const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    return savedTheme !== null ? JSON.parse(savedTheme) : false;
+  });
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('darkMode');
