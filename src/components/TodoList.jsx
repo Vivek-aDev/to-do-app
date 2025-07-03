@@ -26,6 +26,7 @@ export default function TodoList({ darkMode }) {
   const dispatch = useDispatch();
   const allTasks = useSelector((state) => state.tasks);
   const [input, setInput] = useState("");
+  const [priority, setPriority] = useState("Low");
   const [editingTask, setEditingTask] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [currentFilter, setCurrentFilter] = useState("newest");
@@ -37,15 +38,20 @@ export default function TodoList({ darkMode }) {
   const openNotification = (msg) => {
     api.info({
       message: "Task Notification",
-      description: <NotificationContext.Consumer>{() => `${msg}`}</NotificationContext.Consumer>,
+      description: (
+        <NotificationContext.Consumer>
+          {() => `${msg}`}
+        </NotificationContext.Consumer>
+      ),
       placement: "topRight",
     });
   };
 
   const handleAdd = () => {
     if (!input.trim()) return;
-    dispatch(addTask({ id: uuidv4(), text: input }));
+    dispatch(addTask({ id: uuidv4(), text: input, priority }));
     setInput("");
+    setPriority("Low");
     openNotification(`${input} added successfully`);
   };
 
@@ -83,18 +89,26 @@ export default function TodoList({ darkMode }) {
     <NotificationContext.Provider value={contextValue}>
       {contextHolder}
       <Space direction="vertical" style={{ width: "100%" }}>
-        <Input.Group compact>
+        <Space.Compact style={{ width: "100%" }}>
           <Input
-            style={{ width: "calc(100% - 80px)" }}
             placeholder="Add a task"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onPressEnter={handleAdd}
           />
+          <Select
+            value={priority}
+            onChange={(value) => setPriority(value)}
+            options={[
+              { label: "Low", value: "Low" },
+              { label: "Medium", value: "Medium" },
+              { label: "High", value: "High" },
+            ]}
+          />
           <Button type="primary" onClick={handleAdd}>
             Add
           </Button>
-        </Input.Group>
+        </Space.Compact>
 
         <div style={{ textAlign: "right" }}>
           <Select
@@ -152,6 +166,9 @@ export default function TodoList({ darkMode }) {
                     }}
                   >
                     {task.text}
+                    <strong style={{ marginLeft: 8 }}>
+                      ({task.priority || "Low"})
+                    </strong>
                   </span>
                 </Checkbox>
               </List.Item>
