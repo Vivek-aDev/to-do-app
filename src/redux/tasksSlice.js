@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const loadTasks = () => {
-  const tasks = localStorage.getItem('tasks');
-  return tasks ? JSON.parse(tasks) : [];
+  try {
+    const tasks = localStorage.getItem('tasks');
+    return tasks ? JSON.parse(tasks) : [];
+  } catch {
+    return [];
+  }
 };
 
 const saveTasks = (tasks) => {
@@ -14,53 +18,32 @@ const tasksSlice = createSlice({
   initialState: loadTasks(),
   reducers: {
     addTask: (state, action) => {
-      const newState = [...state, { ...action.payload, createdAt: Date.now(), completed: false }];
-      saveTasks(newState);
-      return newState;
+      const newTask = { ...action.payload, createdAt: Date.now(), completed: false };
+      const updated = [...state, newTask];
+      saveTasks(updated);
+      return updated;
     },
     updateTask: (state, action) => {
-      const newState = state.map((t) =>
-        t.id === action.payload.id ? { ...t, ...action.payload } : t
+      const updated = state.map((t) =>
+        t.id === action.payload.id ? { ...t, text: action.payload.text } : t
       );
-      saveTasks(newState);
-      return newState;
+      saveTasks(updated);
+      return updated;
     },
     deleteTask: (state, action) => {
-      const newState = state.filter((t) => t.id !== action.payload);
-      saveTasks(newState);
-      return newState;
+      const updated = state.filter((t) => t.id !== action.payload);
+      saveTasks(updated);
+      return updated;
     },
     toggleCompletion: (state, action) => {
-      const newState = state.map((t) =>
+      const updated = state.map((t) =>
         t.id === action.payload ? { ...t, completed: !t.completed } : t
       );
-      saveTasks(newState);
-      return newState;
-    },
-    sortTasks: (state, action) => {
-      const { type } = action.payload;
-      const originalState = loadTasks();
-      let sorted;
-      switch (type) {
-        case 'newest':
-          sorted = [...originalState].sort((a, b) => b.createdAt - a.createdAt);
-          break;
-        case 'oldest':
-          sorted = [...originalState].sort((a, b) => a.createdAt - b.createdAt);
-          break;
-        case 'completed':
-          sorted = [...originalState].filter((t) => t.completed);
-          break;
-        case 'incompleted':
-          sorted = [...originalState].filter((t) => !t.completed);
-          break;
-        default:
-          sorted = originalState;
-      }
-      return sorted;
+      saveTasks(updated);
+      return updated;
     },
   },
 });
 
-export const { addTask, updateTask, deleteTask, toggleCompletion, sortTasks } = tasksSlice.actions;
+export const { addTask, updateTask, deleteTask, toggleCompletion } = tasksSlice.actions;
 export default tasksSlice.reducer;

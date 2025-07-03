@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Switch, Space, Card } from 'antd';
 import { BulbOutlined } from '@ant-design/icons';
 import TodoList from './components/TodoList';
@@ -8,6 +8,17 @@ const { Title, Text } = Typography;
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme !== null) {
+      setDarkMode(JSON.parse(savedTheme));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   return (
     <Layout
