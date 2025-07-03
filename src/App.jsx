@@ -39,7 +39,7 @@ export default function App() {
           alignItems: 'center',
           background: darkMode ? '#1f1f1f' : '#ffffff',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          padding: '0 24px',
+          padding: '0 94px',
         }}
       >
         <Space align="center">
@@ -54,7 +54,7 @@ export default function App() {
         </Space>
       </Header>
 
-      <Content style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
+      <Content style={{ flex: 2/8, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 94 }}>
         <Card
           style={{ width: '100%', maxWidth: 600, minWidth: '90%', borderRadius: 12, boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}
         >
