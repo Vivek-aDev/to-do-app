@@ -46,7 +46,6 @@ export default function App() {
       <Content style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
         <Card
           style={{ width: '100%', maxWidth: 600, minWidth: '90%', borderRadius: 12, boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}
-          bodyStyle={{ padding: 24 }}
         >
           <TodoList darkMode={darkMode} />
         </Card>
