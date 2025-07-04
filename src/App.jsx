@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Typography, Switch, Space, Card } from "antd";
-import { BulbOutlined } from "@ant-design/icons";
+import { BulbOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import TodoList from "./components/TodoList";
 
 const { Header, Content, Footer } = Layout;
@@ -57,10 +57,26 @@ export default function App() {
           </Title>
         </Space>
         <Space>
-          <Text style={{ color: darkMode ? "#bbb" : "#555" }}>
-            Toggle Theme
-          </Text>
-          <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
+          {darkMode ? (
+            <SunOutlined
+              style={{
+                fontSize: 20,
+                color: "#fadb14",
+                cursor: "pointer",
+              }}
+              onClick={() => setDarkMode(!darkMode)}
+            />
+          ) : (
+            <MoonOutlined
+              style={{
+                fontSize: 20,
+                color: "#1890ff",
+                cursor: "pointer",
+              }}
+              onClick={() => setDarkMode(!darkMode)}
+            />
+          )}
+          {/* <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} /> */}
         </Space>
       </Header>
 
