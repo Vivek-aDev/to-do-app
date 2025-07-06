@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Typography, Switch, Space, Card, Grid, Row, Col } from "antd";
+import {
+  Layout,
+  Typography,
+  Switch,
+  Space,
+  Card,
+  Grid,
+  Row,
+  Col,
+  Tooltip,
+} from "antd";
 import { BulbOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import TodoList from "./components/TodoList";
 
@@ -47,7 +57,21 @@ export default function App() {
           padding: screens.xs ? "0 16px" : "0 94px",
         }}
       >
-        <Space align="center">
+        <Space
+          align="center"
+          style={{
+            cursor: "pointer",
+            transition: "transform 0.3s ease, color 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.1)";
+            e.currentTarget.style.color = darkMode ? "#ffd700" : "#0056b3";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)"; 
+            e.currentTarget.style.color = darkMode ? "#fadb14" : "#1890ff"; 
+          }}
+        >
           <BulbOutlined
             style={{ fontSize: 24, color: darkMode ? "#fadb14" : "#1890ff" }}
           />
@@ -60,23 +84,29 @@ export default function App() {
         </Space>
         <Space>
           {darkMode ? (
-            <SunOutlined
-              style={{
-                fontSize: 20,
-                color: "#fadb14",
-                cursor: "pointer",
-              }}
-              onClick={() => setDarkMode(!darkMode)}
-            />
+            <Tooltip title="Switch to Light Mode">
+              <SunOutlined
+                style={{
+                  fontSize: 20,
+                  color: "#fadb14",
+                  cursor: "pointer",
+                  transition: "transform 0.5s ease, color 0.5s ease",
+                }}
+                onClick={() => setDarkMode(!darkMode)}
+              />
+            </Tooltip>
           ) : (
-            <MoonOutlined
-              style={{
-                fontSize: 20,
-                color: "#1890ff",
-                cursor: "pointer",
-              }}
-              onClick={() => setDarkMode(!darkMode)}
-            />
+            <Tooltip title="Switch to Dark Mode">
+              <MoonOutlined
+                style={{
+                  fontSize: 20,
+                  color: "#1890ff",
+                  cursor: "pointer",
+                  transition: "transform 0.5s ease, color 0.5s ease",
+                }}
+                onClick={() => setDarkMode(!darkMode)}
+              />
+            </Tooltip>
           )}
           {/* <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} /> */}
         </Space>
@@ -117,7 +147,7 @@ export default function App() {
           color: darkMode ? "#f0f0f0" : "#000",
           padding: screens.xs ? "12px 16px" : "12px 24px",
           borderTop: "1px solid rgba(0, 0, 0, 0.1)",
-          fontSize: screens.xs ? '12px' : '14px',
+          fontSize: screens.xs ? "12px" : "14px",
         }}
       >
         <strong>made with 💙 from Vivek</strong>

@@ -1,0 +1,22 @@
+.hover-glow:hover {
+  border-color: #1890ff;
+  box-shadow: 0 0 8px #1890ff;
+}
+
+.list-item-glow:hover {
+  border-color: #40a9ff;
+  box-shadow: 0 0 8px #40a9ff;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.zoom-effect:hover {
+  transform: scale(1.2);
+}
+
+.sun-icon:hover {
+  transform: rotate(360deg);
+}
+
+.moon-icon:hover {
+  transform: scale(1.2);
+}
