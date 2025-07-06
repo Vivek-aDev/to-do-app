@@ -77,6 +77,9 @@ export default function TodoList({ darkMode }) {
     case "newest":
       tasks.sort((a, b) => b.createdAt - a.createdAt);
       break;
+    case "all":
+      tasks = allTasks;
+      break;
     default:
       break;
   }
@@ -97,6 +100,11 @@ export default function TodoList({ darkMode }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onPressEnter={handleAdd}
+            style={{
+              border: "1px solid #d9d9d9",
+              transition: "box-shadow 0.3s, border-color 0.3s",
+            }}
+            className="hover-glow"
           />
           <Select
             value={priority}
@@ -125,6 +133,7 @@ export default function TodoList({ darkMode }) {
               { label: "Oldest", value: "oldest" },
               { label: "Completed", value: "completed" },
               { label: "Incomplete", value: "incompleted" },
+              { label: "All", value: "all" },
             ]}
           />
         </div>
@@ -136,16 +145,36 @@ export default function TodoList({ darkMode }) {
             dataSource={tasks}
             renderItem={(task) => (
               <List.Item
+                className="list-item-glow"
                 style={{
-                  backgroundColor: darkMode ? "#fff" : "#fff",
-                  border: "1px solid #ddd",
+                  backgroundColor: darkMode ? "#f0f2f5" : "#ffffff",
+                  border: "1px solid #d9d9d9",
                   borderRadius: 8,
-                  marginBottom: 8,
-                  padding: 12,
+                  marginBottom: 12,
+                  padding: 16,
+                  transition: "box-shadow 0.3s, border-color 0.3s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.02)";
+                  e.currentTarget.style.color = darkMode
+                    ? "#ffd700"
+                    : "#0056b3";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.color = darkMode
+                    ? "#fadb14"
+                    : "#1890ff";
                 }}
                 actions={[
                   <EditOutlined
-                    style={{ color: "#1E90FF" }}
+                    className="zoom-effect"
+                    style={{
+                      color: "#1E90FF",
+                      fontSize: "18px",
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease",
+                    }}
                     key="edit"
                     onClick={() => {
                       setEditingTask(task);
@@ -153,7 +182,13 @@ export default function TodoList({ darkMode }) {
                     }}
                   />,
                   <DeleteOutlined
-                    style={{ color: "red" }}
+                    className="zoom-effect"
+                    style={{
+                      color: "red",
+                      fontSize: "18px",
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease",
+                    }}
                     key="delete"
                     onClick={() => {
                       dispatch(deleteTask(task.id));
